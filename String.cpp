@@ -4,7 +4,7 @@
 
 #include "String.hpp"
 
-Hikaze::String operator"" _HString(const char* str,size_t size) {
+Hikaze::String operator"" _HString(const wchar_t* str,size_t size) {
     return {str,size};
 }
 
@@ -20,7 +20,7 @@ bool Hikaze::String::Empty() const {
 Hikaze::String::String(const Hikaze::String& iStr) {
     deleteStr();
     size = iStr.size;
-    pArray = new char[size];
+    pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.pArray[i];
     }
@@ -31,28 +31,27 @@ void Hikaze::String::deleteStr() {
 }
 
 Hikaze::String::String(const std::string& iStr) {
-    deleteStr();
     size = iStr.size();
-    pArray = new char[size];
+    pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.at(i);
     }
 }
 
-Hikaze::String::String(const char* iStr,size_t iSize) {
-    deleteStr();
-    size = iSize;
-    pArray = new char[size];
+Hikaze::String::String(const wchar_t* iStr,size_t iSize) {
+    size = iSize+1;
+    pArray = new wchar_t [size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr[i];
     }
+    pArray[size-1] = '\0';
 }
 
 Hikaze::String &Hikaze::String::operator=(const Hikaze::String& iStr) {
     if(this == &iStr) return *this;
     deleteStr();
     size = iStr.size;
-    pArray = new char[size];
+    pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.pArray[i];
     }
@@ -62,7 +61,7 @@ Hikaze::String &Hikaze::String::operator=(const Hikaze::String& iStr) {
 Hikaze::String &Hikaze::String::operator=(const std::string& iStr) {
     deleteStr();
     size = iStr.size();
-    pArray = new char[size];
+    pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.at(i);
     }
@@ -70,8 +69,8 @@ Hikaze::String &Hikaze::String::operator=(const std::string& iStr) {
 }
 Hikaze::String::String() :size(0), pArray(nullptr){}
 
-char Hikaze::String::operator[](const long long int & index) {
-    return index>=0?pArray[index]:pArray[size+index];
+wchar_t Hikaze::String::operator[](const long long int & index) {
+    return index>=0?pArray[index]:pArray[size+index-1];
 }
 
 Hikaze::String& Hikaze::String::assign(Hikaze::String& sStr, const Hikaze::String& iStr) {
