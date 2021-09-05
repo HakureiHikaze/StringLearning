@@ -16,11 +16,24 @@ namespace Hikaze{
         String(const char*, size_t size);
         String& operator=(const String&);
         String& operator=(const std::string&);
+        char operator[](const long long&); //There's little string larger than long long's capacity.
         bool Empty() const;
-        friend std::ostream & operator<<(std::ostream&, const String&);
+        static String& assign(String&, const String&);
+        unsigned long length() const;
+        static unsigned long length(const String&);
+        String append(const String&);
+        static String strLink(const String&, const String&);
+        String subStr(const String&);
+        static String subStr(const String&, const String&);
+
+        friend std::ostream & operator<<(std::ostream& os, const String& iStr){
+            if(iStr.Empty()) return os;
+            os<<iStr.pArray;
+            return os;
+        }
     private:
-        char* pArray{};
-        size_t size{};
+        char* pArray;
+        size_t size;
         void deleteStr();
     };
 }
