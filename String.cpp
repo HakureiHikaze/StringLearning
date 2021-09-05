@@ -7,6 +7,9 @@
 Hikaze::String operator"" _HString(const wchar_t* str,size_t size) {
     return {str,size};
 }
+Hikaze::String operator"" _HString(const char* str,size_t size) {
+    return {str,size};
+}
 
 Hikaze::String::~String() {
     deleteStr();
@@ -83,4 +86,13 @@ unsigned long Hikaze::String::length() const {
 
 unsigned long Hikaze::String::length(const Hikaze::String & iStr) {
     return iStr.size;
+}
+
+Hikaze::String::String(const char * iStr, size_t iSize) {
+    size = iSize+1;
+    pArray = new wchar_t [size];
+    for(int i = 0; i<size; i++){
+        pArray[i] = static_cast<wchar_t>(iStr[i]);
+    }
+    pArray[size-1] = '\0';
 }

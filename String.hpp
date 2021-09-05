@@ -14,6 +14,7 @@ namespace Hikaze{
         String(const String&);
         explicit String(const std::string&);
         String(const wchar_t*, size_t size);
+        String(const char*, size_t size);
         String& operator=(const String&);
         String& operator=(const std::string&);
         wchar_t operator[](const long long&); //There's little string larger than long long's capacity.
@@ -39,6 +40,7 @@ namespace Hikaze{
 }
 
 Hikaze::String operator"" _HString(const wchar_t*, size_t);
+Hikaze::String operator"" _HString(const char*,size_t);
 
 
 #endif //STRINGLEARNING_STRING_HPP
