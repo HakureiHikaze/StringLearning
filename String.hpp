@@ -17,15 +17,14 @@ namespace Hikaze{
         String(const char*, size_t size);
         String& operator=(const String&);
         String& operator=(const std::string&);
-        wchar_t operator[](const long long&); //There's little string larger than long long's capacity.
+        wchar_t& operator[](const long long&); //There's little string larger than long long's capacity.
         bool Empty() const;
         static String& assign(String&, const String&);
         unsigned long length() const;
         static unsigned long length(const String&);
         String& append(const String&);
         static String strLink(String&, const String&);
-        String subStr(const String&);
-        static String subStr(const String&, const String&);
+        String subStr(const long long&, const size_t&);
 
         friend std::wostream & operator<<(std::wostream& os, const String& iStr){
             if(iStr.Empty()) return os;

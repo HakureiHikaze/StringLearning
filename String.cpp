@@ -73,7 +73,7 @@ Hikaze::String &Hikaze::String::operator=(const std::string& iStr) {
 }
 Hikaze::String::String() :size(0), pArray(nullptr){}
 
-wchar_t Hikaze::String::operator[](const long long int & index) {
+wchar_t& Hikaze::String::operator[](const long long int & index) {
     return index>=0?pArray[index]:pArray[size+index-1];
 }
 
@@ -102,14 +102,16 @@ Hikaze::String& Hikaze::String::append(const Hikaze::String & iStr) {
     wchar_t* pSrc = pArray,* pIn = iStr.pArray;
     size_t NSize = size+iStr.size-1;
     pArray = new wchar_t[NSize];
-    int i = 0, j = 0;
-    for(;i<size-1;i++){
-        pArray[i] = pSrc[i];
-    }
-    j = i;
-    for(i=0;i<iStr.size;i++){
-        pArray[j+i] = pIn[i];
-    }
+    memcpy(pArray, pSrc, size*2-2);
+    memcpy(&pArray[size-1], pIn, iStr.size*2-2);
+//    int i = 0, j = 0;
+//    for(;i<size-1;i++){
+//        pArray[i] = pSrc[i];
+//    }
+//    j = i;
+//    for(i=0;i<iStr.size;i++){
+//        pArray[j+i] = pIn[i];
+//    }
     pArray[NSize-1] = '\0';
     size = NSize;
     delete[] pSrc;
@@ -119,4 +121,14 @@ Hikaze::String& Hikaze::String::append(const Hikaze::String & iStr) {
 Hikaze::String Hikaze::String::strLink(Hikaze::String & src, const Hikaze::String & in) {
     src.append(in);
     return src;
+}
+
+Hikaze::String Hikaze::String::subStr(const long long & index, const size_t & length) {
+    String rtn;
+    String& test = *this;
+    rtn.pArray = new wchar_t [length+1];
+    rtn.size = length;
+    memcpy(rtn.pArray,&((*this)[index]),length*2);
+    rtn.pArray[length] = '\0';
+    return rtn;
 }
