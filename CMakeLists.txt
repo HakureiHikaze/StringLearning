@@ -3,4 +3,4 @@ project(StringLearning)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(StringLearning main.cpp)
+add_executable(StringLearning main.cpp String.cpp String.hpp)

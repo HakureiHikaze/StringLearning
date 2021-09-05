@@ -1,6 +1,8 @@
 #include <iostream>
-
+#include <string>
+#include "String.hpp"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Hikaze::String test = "testString"_HString;
+    std::cout<<test<<std::endl;
     return 0;
 }
