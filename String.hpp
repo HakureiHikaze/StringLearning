@@ -22,8 +22,8 @@ namespace Hikaze{
         static String& assign(String&, const String&);
         unsigned long length() const;
         static unsigned long length(const String&);
-        String append(const String&);
-        static String strLink(const String&, const String&);
+        String& append(const String&);
+        static String strLink(String&, const String&);
         String subStr(const String&);
         static String subStr(const String&, const String&);
 

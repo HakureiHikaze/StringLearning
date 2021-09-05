@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
 
-add_executable(StringLearning main.cpp String.cpp String.hpp)
+add_executable(StringLearning main.cpp String.cpp String.hpp Asm_memcopy.hpp)
