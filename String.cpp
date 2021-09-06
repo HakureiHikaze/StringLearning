@@ -6,10 +6,10 @@
 //#include "Asm_memcopy.hpp"
 
 Hikaze::String operator"" _HString(const wchar_t* str,size_t size) {
-    return {str,size};
+    return {str,static_cast<long long>(size)};
 }
 Hikaze::String operator"" _HString(const char* str,size_t size) {
-    return {str,size};
+    return {str,static_cast<long long>(size)};
 }
 
 Hikaze::String::~String() {
@@ -42,7 +42,7 @@ Hikaze::String::String(const std::string& iStr) {
     }
 }
 
-Hikaze::String::String(const wchar_t* iStr,size_t iSize) {
+Hikaze::String::String(const wchar_t* iStr,long long iSize) {
     size = iSize+1;
     pArray = new wchar_t [size];
     for(int i = 0; i<size; i++){
@@ -64,7 +64,7 @@ Hikaze::String &Hikaze::String::operator=(const Hikaze::String& iStr) {
 
 Hikaze::String &Hikaze::String::operator=(const std::string& iStr) {
     deleteStr();
-    size = iStr.size();
+    size = static_cast<long long>(iStr.size());
     pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.at(i);
@@ -73,7 +73,7 @@ Hikaze::String &Hikaze::String::operator=(const std::string& iStr) {
 }
 Hikaze::String::String() :size(0), pArray(nullptr){}
 
-wchar_t& Hikaze::String::operator[](const long long int & index) {
+wchar_t& Hikaze::String::operator[](const long long & index) {
     return index>=0?pArray[index]:pArray[size+index-1];
 }
 
@@ -86,10 +86,10 @@ unsigned long Hikaze::String::length() const {
 }
 
 unsigned long Hikaze::String::length(const Hikaze::String & iStr) {
-    return iStr.size;
+    return iStr.size-1;
 }
 
-Hikaze::String::String(const char * iStr, size_t iSize) {
+Hikaze::String::String(const char * iStr, long long iSize) {
     size = iSize+1;
     pArray = new wchar_t [size];
     for(int i = 0; i<size; i++){
@@ -100,18 +100,10 @@ Hikaze::String::String(const char * iStr, size_t iSize) {
 
 Hikaze::String& Hikaze::String::append(const Hikaze::String & iStr) {
     wchar_t* pSrc = pArray,* pIn = iStr.pArray;
-    size_t NSize = size+iStr.size-1;
+    long long NSize = size+iStr.size-1;
     pArray = new wchar_t[NSize];
     memcpy(pArray, pSrc, size*2-2);
     memcpy(&pArray[size-1], pIn, iStr.size*2-2);
-//    int i = 0, j = 0;
-//    for(;i<size-1;i++){
-//        pArray[i] = pSrc[i];
-//    }
-//    j = i;
-//    for(i=0;i<iStr.size;i++){
-//        pArray[j+i] = pIn[i];
-//    }
     pArray[NSize-1] = '\0';
     size = NSize;
     delete[] pSrc;
@@ -123,7 +115,7 @@ Hikaze::String Hikaze::String::strLink(Hikaze::String & src, const Hikaze::Strin
     return src;
 }
 
-Hikaze::String Hikaze::String::subStr(const long long & index, const size_t & length) {
+Hikaze::String Hikaze::String::subStr(const long long & index, const long long & length) {
     String rtn;
     String& test = *this;
     rtn.pArray = new wchar_t [length+1];
@@ -131,4 +123,26 @@ Hikaze::String Hikaze::String::subStr(const long long & index, const size_t & le
     memcpy(rtn.pArray,&((*this)[index]),length*2);
     rtn.pArray[length] = '\0';
     return rtn;
+}
+
+long long Hikaze::String::patternSearchBF(const Hikaze::String & pattern) const {
+    long long i = 0, k;
+    bool flag = true;
+    while(i<=length()-pattern.length()){
+        k = i;
+        while(i-k<pattern.length()-1){
+            if(pArray[i] != pattern.pArray[i - k]){
+                flag = false;
+                break;
+            }
+            else flag = true;
+            i++;
+        }
+        if(flag){
+           return k;
+        }
+        i = k;
+        i++;
+    }
+    return -1;
 }

@@ -13,8 +13,8 @@ namespace Hikaze{
         ~String();
         String(const String&);
         explicit String(const std::string&);
-        String(const wchar_t*, size_t size);
-        String(const char*, size_t size);
+        String(const wchar_t*, long long size);
+        String(const char*, long long size);
         String& operator=(const String&);
         String& operator=(const std::string&);
         wchar_t& operator[](const long long&); //There's little string larger than long long's capacity.
@@ -24,7 +24,8 @@ namespace Hikaze{
         static unsigned long length(const String&);
         String& append(const String&);
         static String strLink(String&, const String&);
-        String subStr(const long long&, const size_t&);
+        String subStr(const long long&, const long long&);
+        long long patternSearchBF(const String&) const;
 
         friend std::wostream & operator<<(std::wostream& os, const String& iStr){
             if(iStr.Empty()) return os;
@@ -33,7 +34,7 @@ namespace Hikaze{
         }
     private:
         wchar_t* pArray;
-        size_t size;
+        long long size;
         void deleteStr();
     };
 }
