@@ -35,7 +35,7 @@ void Hikaze::String::deleteStr() {
 }
 
 Hikaze::String::String(const std::string& iStr) {
-    size = iStr.size();
+    size = static_cast<long long>(iStr.size());
     pArray = new wchar_t[size];
     for(int i = 0; i<size; i++){
         pArray[i] = iStr.at(i);
